@@ -9,7 +9,7 @@ public class CharacterController : MonoBehaviour {
 		public float forwardVel = 12;
 		public float rotateVel = 100;
 		public float jumpVel = 25f;
-		public float distToGrounded = 0.1f;
+		public float distToGrounded = 0.01f;
 		public LayerMask ground;
 	}
 
@@ -26,7 +26,6 @@ public class CharacterController : MonoBehaviour {
 		public string FORWARD_AXIS = "Vertical";
 		public string TURN_AXIS = "Horizontal";
 		public string JUMP_AXIS = "Jump";
-
 	}
 
 	public MoveSettings moveSetting = new MoveSettings ();
@@ -81,7 +80,7 @@ public class CharacterController : MonoBehaviour {
 		if (Mathf.Abs (forwardInput) > inputSetting.inputDelay) {
 			//Move
 			velocity.z = moveSetting.forwardVel * forwardInput;
-		} 
+		}
 		else
 			velocity.z = 0;
 	}
@@ -96,12 +95,13 @@ public class CharacterController : MonoBehaviour {
 	void JumP(){
 		if (jumpInput > 0 && Grounded ()) {
 			//jump
+			velocity.y = moveSetting.jumpVel;
 		} else if (jumpInput == 0 && Grounded ()) {
 			//zero out our velocity.y
+			velocity.y = 0;
 		} else {
 			//decrease velocity.y
-			velocity.y = physSetting.downAccel;
+			velocity.y -= physSetting.downAccel;
 		}
 	}
-
 }

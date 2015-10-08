@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour {
 	public float xTilt =10;
 
 	Vector3 destination  = Vector3.zero;
-	CharacterController charController;
+	ThirdPersonController charController;
 	float rotateVel = 0;
 
 
@@ -25,9 +25,9 @@ public class CameraController : MonoBehaviour {
 
 		if (target != null) 
 		{
-			if (target.GetComponent<CharacterController>())
+			if (target.GetComponent<ThirdPersonController>())
 			{
-				charController = target.GetComponent<CharacterController>();
+				charController = target.GetComponent<ThirdPersonController>();
 			}
 			else
 			{

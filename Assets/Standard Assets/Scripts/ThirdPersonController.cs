@@ -35,7 +35,8 @@ public class ThirdPersonController : MonoBehaviour {
 	Vector3 velocity = Vector3.zero;
 	Quaternion targetRotation;
 	Rigidbody rBody;
-	float forwardInput, turnInput, jumpInput;
+	float forwardInput, turnInput, jumpInput, belowLevel, resetPosition;
+	Vector3 position;
 	
 	public Quaternion TargetRotation{
 		get { return targetRotation; }
@@ -55,6 +56,11 @@ public class ThirdPersonController : MonoBehaviour {
 			Debug.LogError ("The character needs a rigidbody");
 		
 		forwardInput = turnInput = jumpInput = 0;
+
+
+		belowLevel = -10f;
+		resetPosition = 2f;
+
 	}
 	
 	void GetInput(){
@@ -67,6 +73,8 @@ public class ThirdPersonController : MonoBehaviour {
 	void Update () {
 		GetInput ();
 		Turn ();
+
+		ResetPlayer ();
 	}
 	
 	void FixedUpdate(){
@@ -102,6 +110,13 @@ public class ThirdPersonController : MonoBehaviour {
 		} else {
 			//decrease velocity.y
 			velocity.y -= physSetting.downAccel;
+		}
+	}
+
+	void ResetPlayer(){
+		if (transform.position.y <= belowLevel) {
+			position = new Vector3( transform.position.x, resetPosition, transform.position.z);
+				transform.position = position;
 		}
 	}
 }

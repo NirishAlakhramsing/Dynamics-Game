@@ -13,9 +13,21 @@ public class CameraController : MonoBehaviour {
 	ThirdPersonController charController;
 	float rotateVel = 0;
 
+	Hashtable ht = new Hashtable();
+
+
+
 
 	// Use this for initialization
 	void Start () {
+
+		ht.Add("x",3f);
+		ht.Add("y",3f);
+		ht.Add("z",3f);
+		ht.Add("time",3f);
+		ht.Add("looptype",iTween.LoopType.none);
+
+
 		SetCameraTarget (target);
 	}
 
@@ -54,6 +66,11 @@ public class CameraController : MonoBehaviour {
 	void LookAtTarget(){
 		float eulerYAngle = Mathf.SmoothDampAngle (transform.eulerAngles.y, target.eulerAngles.y, ref rotateVel, lookSmooth);
 		transform.rotation = Quaternion.Euler (transform.eulerAngles.x, eulerYAngle, 0);
+	}
+
+	public void ShakeCamera(){
+		iTween.ShakeRotation (gameObject, ht);
+		Debug.LogError ("Shook te ground");
 	}
 	
 }

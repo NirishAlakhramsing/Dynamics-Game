@@ -72,7 +72,7 @@ public class ScaleBossScript : MonoBehaviour {
 		//position = new Vector3 (transform.position.x, 20f, transform.position.z);
 		//transform.position = position;
 		iTween.MoveBy (gameObject, ht);
-		yield return new WaitForSeconds (3);
+		yield return new WaitForSeconds (3.5f);
 		Debug.Log ("JUMPED");
 		getCameraScript.ShakeCamera ();
 	}

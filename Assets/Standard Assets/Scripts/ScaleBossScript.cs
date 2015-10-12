@@ -7,6 +7,7 @@ public class ScaleBossScript : MonoBehaviour {
 	public float speed;
 	public bool canSlow, scaleUp, scaleDown, canMove;
 	private CameraController getCameraScript;
+	private StageArea getStageAreaScript;
 
 	Hashtable ht = new Hashtable();
 
@@ -20,8 +21,9 @@ public class ScaleBossScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		getCameraScript = GameObject.Find ("Main Camera").GetComponent<CameraController> ();
 
+		getCameraScript = GameObject.Find ("Main Camera").GetComponent<CameraController> ();
+		getStageAreaScript = GameObject.Find ("StageAreaManager").GetComponent<StageArea> ();
 		canSlow = scaleUp = scaleDown = false;
 		canMove = true;
 	}
@@ -67,13 +69,16 @@ public class ScaleBossScript : MonoBehaviour {
 			transform.position += Vector3.forward * speed * Time.deltaTime;
 		}
 	}
+	//Activates Jumptween and calls to pound mines out of the ground.
+	public IEnumerator JumpTween(){
 
-	public IEnumerator Jump(){
-		//position = new Vector3 (transform.position.x, 20f, transform.position.z);
-		//transform.position = position;
 		iTween.MoveBy (gameObject, ht);
 		yield return new WaitForSeconds (3.5f);
 		Debug.Log ("JUMPED");
+
 		getCameraScript.ShakeCamera ();
+		yield return new WaitForSeconds (3f);
+		getStageAreaScript.startSpawning = true;
+
 	}
 }

@@ -8,20 +8,14 @@ public class BossScript : MonoBehaviour
 	private AbosrbScript getAsorbScript;
 	private DestroyThisObject getDestroyScript;
 	private StageArea getStageAreaScript;
+	private BossTweenScript getBossTweenScript;
 	private bool stage1, stage2, stage3, activate, canJump, canSlow, canMove;
 	private int count, jumpCount = 0;
 	private Collider col;
 	public float speed;
 	Rigidbody getRigidBody;
-	Hashtable ht = new Hashtable ();
 
-	void Awake ()
-	{
-		ht.Add ("y", 10f);
-		ht.Add ("time", 3f);
-		ht.Add ("delay", 2f);
-		ht.Add ("looptype", iTween.LoopType.none);
-	}
+
 
 	// Use this for initialization
 	void Start ()
@@ -32,6 +26,7 @@ public class BossScript : MonoBehaviour
 		getDestroyScript = GameObject.Find ("FirstBattleArea").GetComponent<DestroyThisObject> ();
 		getStageAreaScript = GameObject.Find ("StageAreaManager").GetComponent<StageArea> ();
 		getCameraScript = GameObject.Find ("Main Camera").GetComponent<CameraController> ();
+		getBossTweenScript = GameObject.Find ("Boss").GetComponent<BossTweenScript>();
 		getRigidBody = GameObject.Find ("ScaleBoss").GetComponent<Rigidbody> ();
 		col = GameObject.Find ("Boss").GetComponent<BoxCollider> ();
 	}
@@ -121,8 +116,8 @@ public class BossScript : MonoBehaviour
 	//Activates Jumptween and calls to pound mines out of the ground.
 	public IEnumerator JumpTween ()
 	{
-		iTween.MoveBy (gameObject, ht);
 
+		getBossTweenScript.JumpTween ();
 		yield return new WaitForSeconds (3.5f);
 		//getRigidBody.useGravity = true;
 		//col.isTrigger = false;

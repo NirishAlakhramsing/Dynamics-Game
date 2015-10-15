@@ -67,7 +67,6 @@ public class CameraController : MonoBehaviour {
 
 	public void ShakeCamera(){
 		iTween.ShakeRotation (gameObject, ht);
-		Debug.LogError ("Shook te ground");
 	}
 	
 }

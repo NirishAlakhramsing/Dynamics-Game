@@ -5,13 +5,14 @@ public class BossScript : MonoBehaviour
 {
 
 	private CameraController getCameraScript;
-	private ScaleBossScript getScaleScript;
 	private AbosrbScript getAsorbScript;
 	private DestroyThisObject getDestroyScript;
 	private StageArea getStageAreaScript;
 	private bool stage1, stage2, stage3, activate, canJump, canSlow, canMove;
 	private int count, jumpCount = 0;
+	private Collider col;
 	public float speed;
+	Rigidbody getRigidBody;
 	Hashtable ht = new Hashtable ();
 
 	void Awake ()
@@ -27,11 +28,12 @@ public class BossScript : MonoBehaviour
 	{
 		stage1 = stage2 = stage3 = activate = canSlow = false;
 		canJump = canMove = true;
-		getScaleScript = GameObject.Find ("ScaleBoss").GetComponent<ScaleBossScript> ();
 		getAsorbScript = GameObject.Find ("Mine").GetComponent<AbosrbScript> ();
 		getDestroyScript = GameObject.Find ("FirstBattleArea").GetComponent<DestroyThisObject> ();
 		getStageAreaScript = GameObject.Find ("StageAreaManager").GetComponent<StageArea> ();
 		getCameraScript = GameObject.Find ("Main Camera").GetComponent<CameraController> ();
+		getRigidBody = GameObject.Find ("ScaleBoss").GetComponent<Rigidbody> ();
+		col = GameObject.Find ("Boss").GetComponent<BoxCollider> ();
 	}
 	
 	// Update is called once per frame
@@ -103,7 +105,6 @@ public class BossScript : MonoBehaviour
 		yield return new WaitForSeconds (3f);
 
 		//Following boss jumps
-		Debug.Log ("Waited 10 seconds");
 		if (jumpCount <= 3) {
 			StartCoroutine (StageOneFight ());
 		}
@@ -121,10 +122,12 @@ public class BossScript : MonoBehaviour
 	public IEnumerator JumpTween ()
 	{
 		iTween.MoveBy (gameObject, ht);
+
 		yield return new WaitForSeconds (3.5f);
-		Debug.Log ("JUMPED");
-		
+		//getRigidBody.useGravity = true;
+		//col.isTrigger = false;
 		getCameraScript.ShakeCamera ();
+		//getRigidBody.useGravity = false;
 		yield return new WaitForSeconds (1f);
 		getStageAreaScript.startSpawning = true;
 	}

@@ -8,8 +8,7 @@ public class AbosrbScript : MonoBehaviour
 	public float dist, speed, distStage, step, oldSpeed;
 	public float scalar;
 	public bool canDraw;
-	private ScaleBossScript getBossScript;
-	private StageArea getStageAreaScript;
+	private ScaleBossScript getScaleScript;
 	private GameObject bossLocation;
 
 
@@ -20,9 +19,8 @@ public class AbosrbScript : MonoBehaviour
 		step = speed * Time.deltaTime;
 		scalar = 1.2f;
 		canDraw = true;
-		getBossScript = GameObject.Find ("ScaleBoss").GetComponent<ScaleBossScript> ();
-		bossLocation = GameObject.Find ("Boss");
-		getStageAreaScript = GameObject.Find ("StageAreaManager").GetComponent<StageArea> ();
+		getScaleScript = GameObject.Find("ScaleBoss").GetComponent<ScaleBossScript>();
+		bossLocation = GameObject.Find ("ScaleBoss");
 		other = bossLocation.transform;
 		target = bossLocation.transform;
 	}
@@ -30,11 +28,10 @@ public class AbosrbScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		Debug.Log (other);
 
 		if (other) {
 			dist = Vector3.Distance (other.position, transform.position);
-			distStage = Vector3.Distance (getBossScript.transform.position, transform.position);
+			distStage = Vector3.Distance (other.position, transform.position);	//Other draw
 		}
 
 		//Initiate drawing of nearby objects
@@ -45,31 +42,28 @@ public class AbosrbScript : MonoBehaviour
 
 		//destroy objects that hit me and increase the impact range
 		if (dist <= (5f * scalar)) {
-			getBossScript.scaleUp = true;
-			getBossScript.ScaleBoss ();
-			Destroy (gameObject);
-			speed = oldSpeed;
+			step = 0;
+			getScaleScript.scaleUp = true;
+			getScaleScript.ScaleBoss ();
+			speed = 0;
 			scalar++;
+			Destroy (gameObject);
 		}
 	}
 
 	void DrawObject ()
 	{
 		transform.position = Vector3.MoveTowards (transform.position, target.position, step);
-		Debug.Log (speed + "this is the speed");
 		//speed += 0.1f;
 	}
 
 	public void StageDraw ()
 	{
-	
-		transform.position = Vector3.MoveTowards (transform.position, getBossScript.transform.position, step);
-		//speed += 0.1f;
+		transform.position = Vector3.MoveTowards (transform.position, other.transform.position, step);
 	}
 
 	void OnTriggerEnter ()
 	{
-
 
 	}
 

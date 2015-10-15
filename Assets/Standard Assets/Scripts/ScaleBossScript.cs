@@ -5,19 +5,14 @@ public class ScaleBossScript : MonoBehaviour
 {
 
 	public float scaleFactor = 0.1f;
-	public float speed;
 	public bool scaleUp, scaleDown;
-	private StageArea getStageAreaScript;
 	private BossScript getBossScript;
-	Rigidbody rigidB;
 	
 
 	// Use this for initialization
 	void Start ()
 	{
-		rigidB = GameObject.Find ("Boss").GetComponent<Rigidbody> ();
-		getStageAreaScript = GameObject.Find ("StageAreaManager").GetComponent<StageArea> ();
-		getBossScript = GameObject.Find ("Boss").GetComponent<BossScript> ();
+		getBossScript = GameObject.Find ("ScaleBoss").GetComponent<BossScript> ();
 		scaleUp = scaleDown = false;
 	}
 	
@@ -26,7 +21,7 @@ public class ScaleBossScript : MonoBehaviour
 	{
 		ScaleBoss ();
 	}
-
+	
 	//SCALE BOSS UP OR DOWN
 	public void ScaleBoss ()
 	{
@@ -41,5 +36,5 @@ public class ScaleBossScript : MonoBehaviour
 			getBossScript.speed += 0.1f;
 		}
 	}
-	
+
 }

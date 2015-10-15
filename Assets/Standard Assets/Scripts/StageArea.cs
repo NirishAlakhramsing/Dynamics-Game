@@ -17,7 +17,6 @@ public class StageArea : MonoBehaviour
 		randSpawnPosition = gameObject.transform.position;
 		mineCount = 0;
 		maxMines = 1;
-		Debug.Log (randSpawnPosition);
 	}
 	
 	// Update is called once per frame

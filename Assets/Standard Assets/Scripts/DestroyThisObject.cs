@@ -12,7 +12,6 @@ public class DestroyThisObject : MonoBehaviour
 	}
 
 
-
 	public void RemoveObject ()
 	{
 		Destroy (gameObject);

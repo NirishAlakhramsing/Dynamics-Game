@@ -14,10 +14,7 @@ public class CameraController : MonoBehaviour {
 	float rotateVel = 0;
 
 	Hashtable ht = new Hashtable();
-
-
-
-
+	
 	// Use this for initialization
 	void Start () {
 

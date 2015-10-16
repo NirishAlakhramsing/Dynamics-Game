@@ -37,7 +37,7 @@ public class StageArea : MonoBehaviour
 	void SpawnMine ()
 	{
 		Instantiate (mine, GetPosition (randSpawnPosition), Quaternion.identity);
-		//Instantiate (mine, GetSecondPosition (randSpawnPosition), Quaternion.identity);
+		Instantiate (mine, GetSecondPosition (randSpawnPosition), Quaternion.identity);
 		mineCount++;
 	}
 

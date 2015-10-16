@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour {
 		ht.Add("x",3f);
 		ht.Add("y",3f);
 		ht.Add("z",3f);
-		ht.Add("time",3f);
+		ht.Add("time",1f);
 		ht.Add("looptype",iTween.LoopType.none);
 
 

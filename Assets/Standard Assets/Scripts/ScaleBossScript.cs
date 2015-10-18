@@ -34,6 +34,7 @@ public class ScaleBossScript : MonoBehaviour
 		if (Input.GetKeyDown ("t") || scaleDown) {
 			transform.localScale -= new Vector3 (scaleFactor, scaleFactor, scaleFactor);
 			getBossScript.speed += 0.1f;
+            scaleDown = false;
 		}
 	}
 

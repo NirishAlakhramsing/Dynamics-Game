@@ -15,8 +15,6 @@ public class BossScript : MonoBehaviour
 	public float speed;
 	Rigidbody getRigidBody;
 
-
-
 	// Use this for initialization
 	void Start ()
 	{
@@ -36,37 +34,43 @@ public class BossScript : MonoBehaviour
 	{
 		MoveBoss ();//MOVE
 
-		if (canSlow) {//SLOW DOWN
-			SlowDownBoss ();
-		}
-		
-		if (speed <= 0) {
-			canSlow = false;//Stop Boss from moving away from standing position.
-			speed = 0;
-			canMove = false;//Make boss stop walking
-		}
+		SlowDownBoss ();//SLOW DOWN
+
+        HaltBoss();//STOP BOSS MOVEMENT
 
 		if ((stage1 || stage2 || stage3 && speed == 0) && activate) {
 			//Activate stage boss fight
-			ActivateStage ();
+			ActivateStageFight ();
 		}
-	}
+    }
 	
 	//MOVE BOSS
 	public void MoveBoss ()
 	{
 		if (canMove) {
 			transform.position += Vector3.forward * speed * Time.deltaTime;
-			//transform.parent.position = transform.position - transform.localPosition;
-			//rigidB.velocity = Vector3.forward * speed;
 		}
 	}
 
 	//SLOW BOSS
 	void SlowDownBoss ()
 	{
-		speed -= 0.005f;
+        if (canSlow)
+        {
+            speed -= 0.005f;
+        }
 	}
+
+    //HALT BOSS
+    void HaltBoss()
+    {
+        if (speed <= 0)
+        {
+            canSlow = false;//Stop Boss from moving away from standing position.
+            speed = 0;
+            canMove = false;//Make boss stop walking
+        }
+    }
 
 	//NEED TO DESTROY COLLISION BOX OF THE OTHER OBJECT SO IT WONT CALL AND ACTIVATE STAGE AGAIN
 	void OnTriggerEnter (Collider col)
@@ -79,37 +83,51 @@ public class BossScript : MonoBehaviour
 		}
 	}
 	
-	void ActivateStage ()
+    //Activate the current stage fight
+	void ActivateStageFight ()
 	{
 		if (stage1 && speed == 0) {
 			StartCoroutine (StageOneFight ());
 			activate = false;
 		}
-	}
+    }
 
+    //Call the sequence of attack orders
 	IEnumerator StageOneFight ()
 	{
 		//First boss jump
 		getAsorbScript.canDraw = false;
 
 		Jump ();
-		jumpCount++;
+		
 		yield return new WaitForSeconds (7f);
 
 		getAsorbScript.canDraw = true;
 		yield return new WaitForSeconds (3f);
+        jumpCount++;
 
-		//Following boss jumps
-		if (jumpCount <= 3) {
+        //Restart jump
+        if (jumpCount < 3 && stage1) {
 			StartCoroutine (StageOneFight ());
 		}
-	}
+        Debug.Log(jumpCount);
+
+        //Stops fighting boss mode and starts moving boss again.
+        if (stage1 && jumpCount == 3)
+        {
+            jumpCount = 0;
+            stage1 = false;
+            canMove = true;
+            speed = 2;
+        }
+
+    }
 	
+    //Call jump animation
 	void Jump ()
 	{
 		if (canJump) {
 			StartCoroutine (JumpTween ());
-			//canJump = false;
 		}
 	}
 
@@ -119,10 +137,7 @@ public class BossScript : MonoBehaviour
 
 		getBossTweenScript.JumpTween ();
 		yield return new WaitForSeconds (3.5f);
-		//getRigidBody.useGravity = true;
-		//col.isTrigger = false;
 		getCameraScript.ShakeCamera ();
-		//getRigidBody.useGravity = false;
 		yield return new WaitForSeconds (1f);
 		getStageAreaScript.startSpawning = true;
 	}

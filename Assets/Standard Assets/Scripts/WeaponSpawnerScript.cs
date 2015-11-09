@@ -44,6 +44,7 @@ public class WeaponSpawnerScript : MonoBehaviour {
         {
             PassWeaponType(weaponType);
             RemoveChild();
+            Destroy(gameObject);
         }
     }
 
@@ -62,6 +63,7 @@ public class WeaponSpawnerScript : MonoBehaviour {
 
     }
 
+    //Remove weapon visual object from the location spawner.
     void RemoveChild()
     {
         foreach (Transform bazooka in gameObject.transform)
